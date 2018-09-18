@@ -104,7 +104,7 @@ module.exports = {
     /*
      ** Global CSS
      */
-    css: ['~assets/css/main.css'],
+    css: ['~assets/css/main.css', { src: '~assets/styles/scss/index.scss', lang: 'scss' }],
     /*
      ** Customize the progress-bar color
      */
@@ -141,8 +141,8 @@ module.exports = {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator__);
 
 
 var _this = this;
@@ -152,8 +152,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var router = __webpack_require__(5)();
 
 router.post('/ceshi', function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(ctx, next) {
-        return __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+    var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(ctx, next) {
+        return __WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
@@ -206,8 +206,8 @@ module.exports = require("regenerator-runtime");
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_koa__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_koa___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_koa__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_nuxt__ = __webpack_require__(4);
@@ -215,9 +215,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 
 var start = function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee() {
+    var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee() {
         var app, host, port, config, nuxt, builder, router;
-        return __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+        return __WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:

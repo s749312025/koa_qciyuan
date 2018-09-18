@@ -31,7 +31,9 @@
         "eslint-plugin-promise": "^3.4.0",
         "eslint-plugin-standard": "^3.0.1",
         "koa-router": "^7.4.0",
+        "node-sass": "^4.9.3",
         "nodemon": "^1.11.0",
+        "sass-loader": "^7.1.0",
         "scmp": "^2.0.0"
     }
 }
