@@ -8,15 +8,17 @@
             <div class="xiantan left">
                 <ul>
                     <li v-for="item in xiantan" :key="item._id">
-                        <img :src="item.site.icon" alt="">
-                        <span>{{item.title}}</span>
+                        <a :href="item.url" target="_blank">
+                            <img :src="item.site.icon" :alt="item.title">
+                            <span>{{item.title}}</span>
+                        </a>
                     </li>
                 </ul>
             </div>
             <div class="all_nav right">
                 <ul class="com_url clear">
                     <li v-for="(item, index) in recommend.first" :key="index">
-                        <a :href="item.url">
+                        <a :href="item.url" target="_blank">
                             <img :src="item.icon" :alt="item.title">
                             <span>{{item.title}}</span>
                         </a>
@@ -25,7 +27,7 @@
                 <div class="line"></div>
                 <ul class="com_url clear">
                     <li v-for="(item, index) in recommend.second" :key="index">
-                        <a :href="item.url">
+                        <a :href="item.url" target="_blank">
                             <img :src="item.icon" :alt="item.title">
                             <span>{{item.title}}</span>
                         </a>
