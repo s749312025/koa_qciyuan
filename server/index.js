@@ -1,8 +1,6 @@
 import Koa from 'koa'
-import {
-    Nuxt,
-    Builder
-} from 'nuxt'
+import proxy from 'koa-server-http-proxy'
+import { Nuxt, Builder } from 'nuxt'
 
 async function start() {
     const app = new Koa()
@@ -21,6 +19,15 @@ async function start() {
         const builder = new Builder(nuxt)
         await builder.build()
     }
+
+    // proxy
+    const proxyTable = {
+        '/api/xiandu': { target: 'https://gank.io', changeOrigin: true }
+    }
+    Object.keys(proxyTable).forEach(context => {
+        var options = proxyTable[context]
+        app.use(proxy(context, options))
+    })
 
     const router = require('./config/router')
 

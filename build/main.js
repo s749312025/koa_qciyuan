@@ -65,14 +65,14 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(6);
+module.exports = __webpack_require__(8);
 
 
 /***/ },
@@ -149,7 +149,7 @@ var _this = this;
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-var router = __webpack_require__(5)();
+var router = __webpack_require__(7)();
 
 router.post('/ceshi', function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(ctx, next) {
@@ -177,46 +177,50 @@ router.post('/ceshi', function () {
 module.exports = router;
 
 /***/ },
-/* 3 */
+/* 3 */,
+/* 4 */
 /***/ function(module, exports) {
 
 module.exports = require("koa");
 
 /***/ },
-/* 4 */
+/* 5 */,
+/* 6 */
 /***/ function(module, exports) {
 
 module.exports = require("nuxt");
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports) {
 
 module.exports = require("koa-router");
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports) {
 
 module.exports = require("regenerator-runtime");
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_koa__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_koa__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_koa___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_koa__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_nuxt__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_nuxt__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_koa_server_http_proxy__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_koa_server_http_proxy___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_koa_server_http_proxy__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nuxt__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_nuxt__);
 
 
 var start = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee() {
-        var app, host, port, config, nuxt, builder, router;
+        var app, host, port, config, nuxt, builder, proxyTable, router;
         return __WEBPACK_IMPORTED_MODULE_0__Users_shengchao_koa_qciyuan_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
@@ -232,7 +236,7 @@ var start = function () {
                         config.dev = !(app.env === 'production');
 
                         // Instantiate nuxt.js
-                        nuxt = new __WEBPACK_IMPORTED_MODULE_2_nuxt__["Nuxt"](config);
+                        nuxt = new __WEBPACK_IMPORTED_MODULE_3_nuxt__["Nuxt"](config);
 
                         // Build in development
 
@@ -241,11 +245,22 @@ var start = function () {
                             break;
                         }
 
-                        builder = new __WEBPACK_IMPORTED_MODULE_2_nuxt__["Builder"](nuxt);
+                        builder = new __WEBPACK_IMPORTED_MODULE_3_nuxt__["Builder"](nuxt);
                         _context.next = 10;
                         return builder.build();
 
                     case 10:
+
+                        // proxy
+                        proxyTable = {
+                            '/api/xiandu': { target: 'https://gank.io', changeOrigin: true }
+                        };
+
+                        Object.keys(proxyTable).forEach(function (context) {
+                            var options = proxyTable[context];
+                            app.use(__WEBPACK_IMPORTED_MODULE_2_koa_server_http_proxy___default()(context, options));
+                        });
+
                         router = __webpack_require__(2);
 
 
@@ -261,7 +276,7 @@ var start = function () {
                         app.listen(port, host);
                         console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
 
-                    case 15:
+                    case 17:
                     case 'end':
                         return _context.stop();
                 }
@@ -279,7 +294,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 
 
+
 start();
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+module.exports = require("koa-server-http-proxy");
 
 /***/ }
 /******/ ]);

@@ -16,9 +16,6 @@
 import fetch from '../client/plugins/api.js'
 export default {
     async asyncData({ req }) {
-        // return fetch('/ceshi').then(res => {
-        //     return { name: res.name }
-        // })
         const { name } = await fetch('/ceshi')
         return { name }
     },

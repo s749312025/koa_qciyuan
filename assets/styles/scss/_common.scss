@@ -2,7 +2,26 @@
     display: none !important;
 }
 .clear {
-    &:after {
+    &::before {
         clear: both;
+    }
+}
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+.text-center {
+    text-align: center;
+}
+
+a {
+    outline: 0;
+    color: #222;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+        color: red;
     }
 }

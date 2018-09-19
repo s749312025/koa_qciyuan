@@ -38,12 +38,19 @@
 
             </ul>
         </div>
+        <home :xiantan="xiantan"></home>
     </section>
 </template>
 <script>
+import fetch from '../client/plugins/api.js'
 import category from '../client/plugins/searchType'
 import { topNav } from '../client/plugins/nav'
+import Home from '../components/Home.vue'
 export default {
+    async asyncData({ req }) {
+        const { results } = await fetch('/api/xiandu/data/id/appinn/count/10/page/1', {}, 'get')
+        return { xiantan: results }
+    },
     data() {
         return {
             searchInput: '',
@@ -54,6 +61,7 @@ export default {
             categoryActive: '网页'
         }
     },
+    components: { Home },
     methods: {
         goSearch() {
             const url = this.category[this.categoryActive][this.smallCateRank].url + this.searchInput

@@ -5,34 +5,41 @@ axios.defaults.timeout = 5000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 
 axios.defaults.baseURL = 'http://localhost:3000'
+// gank.io  科技资讯 https://gank.io/api/xiandu/data/id/qdaily/count/10/page/1
 
 // POST传参序列化
-axios.interceptors.request.use((config) => {
-    if (config.method === 'post') {
-        config.data = qs.stringify(config.data)
+axios.interceptors.request.use(
+    config => {
+        if (config.method === 'post') {
+            config.data = qs.stringify(config.data)
+        }
+        return config
+    },
+    error => {
+        return Promise.reject(error)
     }
-    return config
-}, (error) => {
-    return Promise.reject(error)
-})
+)
 // 返回状态判断
-axios.interceptors.response.use((res) => {
-    if (res.status === 200) {
-        return res
-    } else {
-        return Promise.reject(res)
+axios.interceptors.response.use(
+    res => {
+        if (res.status === 200) {
+            return res
+        } else {
+            return Promise.reject(res)
+        }
+    },
+    error => {
+        return Promise.reject(error)
     }
-}, (error) => {
-    return Promise.reject(error)
-})
+)
 
-export function fetch(url, params = {}) {
+export function fetch(url, params = {}, methods = 'post') {
     return new Promise((resolve, reject) => {
-        axios.post(url, params)
+        axios[methods](url, params)
             .then(res => {
                 resolve(res.data)
             })
-            .catch((error) => {
+            .catch(error => {
                 reject(error)
             })
     })
