@@ -1,10 +1,13 @@
 .none {
     display: none !important;
 }
-.clear {
-    &::before {
-        clear: both;
-    }
+.clearfix:after,
+.clearfix:before {
+    content: '.'; /*加一段内容*/
+    display: table; /*创建匿名的表格单元，触发bfc*/
+}
+.clearfix:after {
+    clear: both; /*清除浮动*/
 }
 .left {
     float: left;
@@ -15,6 +18,12 @@
 .text-center {
     text-align: center;
 }
+.pointer {
+    cursor: pointer;
+}
+.mt-15 {
+    margin-top: 15px;
+}
 
 a {
     outline: 0;
@@ -23,5 +32,19 @@ a {
     &:hover {
         text-decoration: underline;
         color: red;
+    }
+}
+
+.block-top {
+    // margin-top: 10px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #ccc;
+
+    .t {
+        font-size: 15px;
+        height: 35px;
+        line-height: 35px;
+        color: #333;
     }
 }

@@ -4,7 +4,7 @@
             <span>名站推荐</span>
             <a v-for="(item, index) in adjList" :key="index" target="_blank" :href="item.url">{{item.title}}</a>
         </div>
-        <div class="nav clear">
+        <div class="nav clearfix">
             <div class="xiantan left">
                 <ul>
                     <li v-for="item in xiantan" :key="item._id">
@@ -35,11 +35,15 @@
                 </ul>
             </div>
         </div>
+        <pixiv :pixiv="imgs"></pixiv>
+        <music></music>
     </div>
 </template>
 
 <script>
 import { recommend } from '../client/plugins/nav'
+import pixiv from './home/pixiv'
+import music from './home/music'
 const adjList = [
     { title: '人民网', url: 'http://www.people.com.cn' },
     { title: '新华网', url: 'http://www.xinhuanet.com' },
@@ -53,9 +57,11 @@ const adjList = [
     { title: '中国网信网', url: 'http://www.cac.gov.cn' }
 ]
 export default {
-    props: ['xiantan'],
+    props: ['xiantan', 'pixiv'],
+    components: { pixiv, music },
     data() {
         return {
+            imgs: this.pixiv,
             adjList,
             recommend
         }

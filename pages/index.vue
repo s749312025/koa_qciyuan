@@ -38,7 +38,7 @@
 
             </ul>
         </div>
-        <home :xiantan="xiantan"></home>
+        <home :xiantan="xiantan" :pixiv="pixiv"></home>
     </section>
 </template>
 <script>
@@ -48,8 +48,13 @@ import { topNav } from '../client/plugins/nav'
 import Home from '../components/Home.vue'
 export default {
     async asyncData({ req }) {
-        const { results } = await fetch('/api/xiandu/data/id/appinn/count/10/page/1', {}, 'get')
-        return { xiantan: results }
+        console.time('a')
+        let [{ results }, { image }] = await Promise.all([
+            fetch('/api/xiandu/data/id/appinn/count/10/page/1', {}, 'get'),
+            fetch('/pixiv/pixiv.json', {}, 'get')
+        ])
+        console.timeEnd('a')
+        return { xiantan: results, pixiv: image }
     },
     data() {
         return {

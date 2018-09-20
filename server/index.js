@@ -22,7 +22,9 @@ async function start() {
 
     // proxy
     const proxyTable = {
-        '/api/xiandu': { target: 'https://gank.io', changeOrigin: true }
+        '/api/xiandu': { target: 'https://gank.io', changeOrigin: true },
+        '/pixiv': { target: 'https://cloud.mokeyjay.com', changeOrigin: true },
+        '/cloudmusic': { target: 'https://api.imjad.cn', changeOrigin: true }
     }
     Object.keys(proxyTable).forEach(context => {
         var options = proxyTable[context]
