@@ -48,12 +48,10 @@ import { topNav } from '../client/plugins/nav'
 import Home from '../components/Home.vue'
 export default {
     async asyncData({ req }) {
-        console.time('a')
         let [{ results }, { image }] = await Promise.all([
             fetch('/api/xiandu/data/id/appinn/count/10/page/1', {}, 'get'),
             fetch('/pixiv/pixiv.json', {}, 'get')
         ])
-        console.timeEnd('a')
         return { xiantan: results, pixiv: image }
     },
     data() {

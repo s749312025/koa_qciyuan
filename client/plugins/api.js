@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 // axios 配置
-axios.defaults.timeout = 5000
+axios.defaults.timeout = 100000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 
 axios.defaults.baseURL = 'http://localhost:3000'
@@ -35,8 +35,10 @@ axios.interceptors.response.use(
 
 export function fetch(url, params = {}, methods = 'post') {
     return new Promise((resolve, reject) => {
+        console.time(url)
         axios[methods](url, params)
             .then(res => {
+                console.timeEnd(url)
                 resolve(res.data)
             })
             .catch(error => {
