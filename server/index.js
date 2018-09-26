@@ -2,6 +2,8 @@ import Koa from 'koa'
 import proxy from 'koa-server-http-proxy'
 import { Nuxt, Builder } from 'nuxt'
 
+import '../mysql/index'
+
 async function start() {
     const app = new Koa()
     const host = process.env.HOST || '127.0.0.1'

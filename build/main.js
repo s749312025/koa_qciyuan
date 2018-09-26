@@ -65,18 +65,29 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(7);
+module.exports = __webpack_require__(12);
 
 
 /***/ },
 /* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+var initTable = __webpack_require__(8);
+
+// 初始化表
+initTable();
+
+console.log(123);
+
+/***/ },
+/* 2 */
 /***/ function(module, exports) {
 
 module.exports = {
@@ -136,7 +147,7 @@ module.exports = {
 };
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -149,7 +160,7 @@ var _this = this;
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-var router = __webpack_require__(6)();
+var router = __webpack_require__(10)();
 
 router.post('/ceshi', function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(ctx, next) {
@@ -177,49 +188,201 @@ router.post('/ceshi', function () {
 module.exports = router;
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 module.exports = require("koa");
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 module.exports = require("koa-server-http-proxy");
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 module.exports = require("nuxt");
 
 /***/ },
-/* 6 */
-/***/ function(module, exports) {
-
-module.exports = require("koa-router");
-
-/***/ },
 /* 7 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-module.exports = require("regenerator-runtime");
+var mysql = __webpack_require__(11);
+
+var pool = mysql.createPool({
+    host: '23.105.202.137',
+    user: 'koa_test',
+    password: 's88557339',
+    database: 'koa_test'
+});
+
+var query = function query(sql, values) {
+    return new Promise(function (resolve, reject) {
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                reject(err);
+            } else {
+                connection.query(sql, values, function (err, rows) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(rows);
+                    }
+                    connection.release();
+                });
+            }
+        });
+    });
+};
+
+module.exports = {
+    query: query
+};
 
 /***/ },
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(__dirname) {Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator__);
+
+
+var _this = this;
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+var fs = __webpack_require__(9);
+
+var _require = __webpack_require__(7),
+    query = _require.query;
+
+// 获取所有sql文件夹下的初始化表
+
+
+function getAllSql() {
+    var sqlContentMap = {};
+    var basePath = __dirname;
+    var pathArr = basePath.split('/');
+    pathArr = pathArr.splice(0, pathArr.length - 1);
+    basePath = pathArr.join('/') + '/sql/';
+
+    var files = fs.readdirSync(basePath);
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        for (var _iterator = files[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var item = _step.value;
+
+            sqlContentMap[item] = fs.readFileSync(basePath + item, 'utf8');
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+
+    return sqlContentMap;
+}
+
+// 初始化表
+
+var initTable = function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee() {
+        var allSql, sql;
+        return __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+            while (1) {
+                switch (_context.prev = _context.next) {
+                    case 0:
+                        allSql = getAllSql();
+
+                        console.log(allSql);
+                        _context.t0 = __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.keys(allSql);
+
+                    case 3:
+                        if ((_context.t1 = _context.t0()).done) {
+                            _context.next = 9;
+                            break;
+                        }
+
+                        sql = _context.t1.value;
+                        _context.next = 7;
+                        return query(allSql[sql], []);
+
+                    case 7:
+                        _context.next = 3;
+                        break;
+
+                    case 9:
+                    case 'end':
+                        return _context.stop();
+                }
+            }
+        }, _callee, _this);
+    }));
+
+    return function initTable() {
+        return _ref.apply(this, arguments);
+    };
+}();
+
+module.exports = initTable;
+/* WEBPACK VAR INJECTION */}.call(exports, "mysql/util"))
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+module.exports = require("fs");
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+module.exports = require("koa-router");
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+module.exports = require("mysql");
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+module.exports = require("regenerator-runtime");
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_koa__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_koa__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_koa___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_koa__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_koa_server_http_proxy__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_koa_server_http_proxy__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_koa_server_http_proxy___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_koa_server_http_proxy__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nuxt__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nuxt__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_nuxt__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mysql_index__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mysql_index___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__mysql_index__);
 
 
 var start = function () {
@@ -235,7 +398,7 @@ var start = function () {
 
                         // Import and Set Nuxt.js options
 
-                        config = __webpack_require__(1);
+                        config = __webpack_require__(2);
 
                         config.dev = !(app.env === 'production');
 
@@ -267,7 +430,7 @@ var start = function () {
                             app.use(__WEBPACK_IMPORTED_MODULE_2_koa_server_http_proxy___default()(context, options));
                         });
 
-                        router = __webpack_require__(2);
+                        router = __webpack_require__(3);
 
 
                         app.use(router.routes()).use(router.allowedMethods());
@@ -296,6 +459,8 @@ var start = function () {
 }();
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
 
 
 
