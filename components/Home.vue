@@ -7,9 +7,9 @@
         <div class="nav clearfix">
             <div class="xiantan left">
                 <ul>
-                    <li v-for="item in xiantan" :key="item._id">
-                        <a :href="item.url" target="_blank">
-                            <img :src="item.site.icon" :alt="item.title">
+                    <li v-for="item in xiantan" :key="item.id">
+                        <a :href="item.link" target="_blank">
+                            <img :src="item.icon" :alt="item.title">
                             <span>{{item.title}}</span>
                         </a>
                     </li>
