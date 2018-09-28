@@ -65,21 +65,21 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 19);
+/******/ 	return __webpack_require__(__webpack_require__.s = 24);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(17);
+module.exports = __webpack_require__(21);
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-var mysql = __webpack_require__(15);
+var mysql = __webpack_require__(18);
 
 var pool = mysql.createPool({
     host: '23.105.202.137',
@@ -113,6 +113,36 @@ module.exports = {
 
 /***/ },
 /* 2 */
+/***/ function(module, exports) {
+
+var dateFormat = function dateFormat(date, fmt) {
+    // author: meizz
+    var o = {
+        'M+': date.getMonth() + 1, // 月份
+        'd+': date.getDate(), // 日
+        'h+': date.getHours(), // 小时
+        'm+': date.getMinutes(), // 分
+        's+': date.getSeconds(), // 秒
+        'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
+        'S': date.getMilliseconds() // 毫秒
+    };
+    if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+    }
+    for (var k in o) {
+        if (new RegExp('(' + k + ')').test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length));
+        }
+    }
+    return fmt;
+};
+
+module.exports = {
+    dateFormat: dateFormat
+};
+
+/***/ },
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -124,13 +154,15 @@ var _this = this;
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-var initTable = __webpack_require__(11);
-var schedule = __webpack_require__(16);
+var initTable = __webpack_require__(14);
+var schedule = __webpack_require__(19);
 
-var feed = __webpack_require__(10);
+var _require = __webpack_require__(13),
+    feed = _require.feed,
+    api = _require.api;
 
-var _require = __webpack_require__(1),
-    query = _require.query;
+var _require2 = __webpack_require__(1),
+    query = _require2.query;
 
 var rule = new schedule.RecurrenceRule();
 rule.minute = 40;
@@ -139,6 +171,7 @@ var feedTime = function feedTime() {
     // const j = schedule.scheduleJob(rule, () => {
     schedule.scheduleJob(rule, function () {
         feed();
+        api();
     });
 };
 var init = function () {
@@ -153,10 +186,15 @@ var init = function () {
 
                     case 3:
                         console.log('初始化表结束');
+                        console.log('feed开始');
                         feed();
+                        console.log('feed结束');
+                        console.log('api开始');
+                        api();
+                        console.log('api结束');
                         feedTime();
 
-                    case 6:
+                    case 11:
                     case 'end':
                         return _context.stop();
                 }
@@ -171,7 +209,7 @@ var init = function () {
 init();
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 module.exports = {
@@ -231,14 +269,15 @@ module.exports = {
 };
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mysql_query_index__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mysql_query_index__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__client_plugins_api_js__ = __webpack_require__(9);
 
 
 var _this = this;
@@ -246,7 +285,11 @@ var _this = this;
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 
-var router = __webpack_require__(14)();
+
+var router = __webpack_require__(17)();
+
+var pixiv = [];
+var pixivTime = new Date().getTime();
 
 router.post('/ceshi', function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(ctx, next) {
@@ -301,28 +344,150 @@ router.post('/api/info', function () {
     };
 }());
 
+router.post('/api/pixiv', function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(ctx, next) {
+        var now, _ref5, image;
+
+        return __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+            while (1) {
+                switch (_context3.prev = _context3.next) {
+                    case 0:
+                        now = new Date().getTime();
+
+                        if (!(pixiv.length > 0)) {
+                            _context3.next = 5;
+                            break;
+                        }
+
+                        if (now - pixivTime > 12 * 60 * 60 * 1000) {
+                            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__client_plugins_api_js__["a" /* default */])('https://cloud.mokeyjay.com/pixiv/pixiv.json', {}, 'get').then(function (_ref4) {
+                                var image = _ref4.image;
+
+                                pixiv = image;
+                                pixivTime = new Date().getTime();
+                            });
+                        }
+                        ctx.body = {
+                            image: pixiv
+                        };
+                        return _context3.abrupt('return');
+
+                    case 5:
+                        _context3.next = 7;
+                        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__client_plugins_api_js__["a" /* default */])('https://cloud.mokeyjay.com/pixiv/pixiv.json', {}, 'get');
+
+                    case 7:
+                        _ref5 = _context3.sent;
+                        image = _ref5.image;
+
+                        pixiv = image;
+                        pixivTime = new Date().getTime();
+                        ctx.body = {
+                            image: image
+                        };
+
+                    case 12:
+                    case 'end':
+                        return _context3.stop();
+                }
+            }
+        }, _callee3, _this);
+    }));
+
+    return function (_x5, _x6) {
+        return _ref3.apply(this, arguments);
+    };
+}());
+
 module.exports = router;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-module.exports = require("koa");
 
 /***/ },
 /* 6 */
 /***/ function(module, exports) {
 
-module.exports = require("koa-server-http-proxy");
+module.exports = require("koa");
 
 /***/ },
 /* 7 */
 /***/ function(module, exports) {
 
-module.exports = require("nuxt");
+module.exports = require("koa-server-http-proxy");
 
 /***/ },
 /* 8 */
+/***/ function(module, exports) {
+
+module.exports = require("nuxt");
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qs__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_qs__);
+/* unused harmony export fetch */
+
+
+// axios 配置
+__WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.timeout = 100000;
+__WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+
+__WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.baseURL = 'http://localhost:3000';
+// gank.io  科技资讯 https://gank.io/api/xiandu/data/id/qdaily/count/10/page/1
+
+// POST传参序列化
+__WEBPACK_IMPORTED_MODULE_0_axios___default.a.interceptors.request.use(function (config) {
+    if (config.method === 'post') {
+        config.data = __WEBPACK_IMPORTED_MODULE_1_qs___default.a.stringify(config.data);
+    }
+    return config;
+}, function (error) {
+    return Promise.reject(error);
+});
+// 返回状态判断
+__WEBPACK_IMPORTED_MODULE_0_axios___default.a.interceptors.response.use(function (res) {
+    if (res.status === 200) {
+        return res;
+    } else {
+        return Promise.reject(res);
+    }
+}, function (error) {
+    return Promise.reject(error);
+});
+
+function fetch(url) {
+    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var methods = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'post';
+
+    return new Promise(function (resolve, reject) {
+        console.time(url);
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a[methods](url, params).then(function (res) {
+            console.timeEnd(url);
+            resolve(res.data);
+        }).catch(function (error) {
+            reject(error);
+        });
+    });
+}
+
+/* harmony default export */ exports["a"] = fetch;
+// export default {
+//     /**
+//      * 获取广告信息
+//      */
+//     getAds(params) {
+//         return fetch('/api/ad/queryADs', params)
+//     },
+//     getAreas(params) {
+//         return fetch('/api/area/getAll', params)
+//     }
+// }
+
+/***/ },
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -371,7 +536,7 @@ var searchArticel = function () {
 }();
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -384,13 +549,173 @@ var _this = this;
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-var Parser = __webpack_require__(18);
+var rp = __webpack_require__(22);
+
+var _require = __webpack_require__(1),
+    query = _require.query;
+
+var _require2 = __webpack_require__(2),
+    dateFormat = _require2.dateFormat;
+
+// 过滤重复的数据
+
+
+var removeSameData = function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(items, params) {
+        var sql, newest, filterItems;
+        return __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+            while (1) {
+                switch (_context.prev = _context.next) {
+                    case 0:
+                        sql = "SELECT `pubDate` FROM `koa_test`.`article` WHERE `siteName` = '" + params.siteName + "' ORDER BY `pubDate` DESC LIMIT 1";
+                        _context.next = 3;
+                        return query(sql);
+
+                    case 3:
+                        newest = _context.sent;
+
+                        if (!(newest.length === 0)) {
+                            _context.next = 7;
+                            break;
+                        }
+
+                        console.log(params.siteName + ': 所有的');
+                        return _context.abrupt('return', items);
+
+                    case 7:
+                        filterItems = [];
+
+                        items.forEach(function (item, index) {
+                            if (new Date(item.pubDate).getTime() > new Date(newest[0].pubDate).getTime()) {
+                                filterItems.push(item);
+                            }
+                        });
+                        console.log(params.siteName + ': ' + filterItems.length);
+                        return _context.abrupt('return', filterItems);
+
+                    case 11:
+                    case 'end':
+                        return _context.stop();
+                }
+            }
+        }, _callee, _this);
+    }));
+
+    return function removeSameData(_x, _x2) {
+        return _ref.apply(this, arguments);
+    };
+}();
+
+var apiInsert = function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3() {
+        var url, options, data, params, nextData;
+        return __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+            while (1) {
+                switch (_context3.prev = _context3.next) {
+                    case 0:
+                        url = 'https://gank.io/api/xiandu/data/id/ifanr/count/10/page/1';
+                        options = {
+                            method: 'GET',
+                            url: url,
+                            json: true,
+                            headers: {
+                                'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
+                                Cookie: ''
+                            }
+                        };
+                        _context3.next = 4;
+                        return rp(options);
+
+                    case 4:
+                        data = _context3.sent;
+                        params = {
+                            siteName: '爱范儿(ifanr)',
+                            icon: 'http://ww3.sinaimg.cn/large/0066P23Wjw1f9rylijz6rj3030030gle.jpg'
+                        };
+                        _context3.next = 8;
+                        return removeSameData(data.results, params);
+
+                    case 8:
+                        nextData = _context3.sent;
+
+                        if (!(nextData.length === 0)) {
+                            _context3.next = 11;
+                            break;
+                        }
+
+                        return _context3.abrupt('return');
+
+                    case 11:
+                        nextData.forEach(function () {
+                            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(item) {
+                                var sql, defaultData, data, val;
+                                return __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                                    while (1) {
+                                        switch (_context2.prev = _context2.next) {
+                                            case 0:
+                                                sql = 'insert into article set title=?, link=?, pubDate=?, content=?, icon=?, siteName=?';
+                                                defaultData = {
+                                                    title: item.title,
+                                                    link: item.url,
+                                                    pubDate: dateFormat(new Date(item.published_at), 'yyyy-MM-dd hh:mm:ss'),
+                                                    content: item.content,
+                                                    icon: params.icon,
+                                                    siteName: params.siteName
+                                                };
+                                                data = Object.assign({}, defaultData, params);
+                                                val = [data.title, data.link, data.pubDate, data.content, data.icon, data.siteName];
+                                                _context2.next = 6;
+                                                return query(sql, val);
+
+                                            case 6:
+                                            case 'end':
+                                                return _context2.stop();
+                                        }
+                                    }
+                                }, _callee2, _this);
+                            }));
+
+                            return function (_x3) {
+                                return _ref3.apply(this, arguments);
+                            };
+                        }());
+
+                    case 12:
+                    case 'end':
+                        return _context3.stop();
+                }
+            }
+        }, _callee3, _this);
+    }));
+
+    return function apiInsert() {
+        return _ref2.apply(this, arguments);
+    };
+}();
+
+module.exports = apiInsert;
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator__);
+
+
+var _this = this;
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+var Parser = __webpack_require__(23);
 var parser = new Parser();
 
 var _require = __webpack_require__(1),
     query = _require.query;
 
-var _require2 = __webpack_require__(12),
+var _require2 = __webpack_require__(2),
     dateFormat = _require2.dateFormat;
 
 // 过滤重复的数据
@@ -425,7 +750,7 @@ var removeSameData = function () {
                                 filterItems.push(item);
                             }
                         });
-                        console.log(filterItems.length);
+                        console.log(params.siteName + ': ' + filterItems.length);
                         return _context.abrupt('return', filterItems);
 
                     case 10:
@@ -572,19 +897,26 @@ module.exports = allInsert;
 // }
 
 /***/ },
-/* 10 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-var allInsert = __webpack_require__(9);
+var allInsert = __webpack_require__(12);
+var apiInsert = __webpack_require__(11);
 
 var feed = function feed() {
     allInsert();
 };
+var api = function api() {
+    apiInsert();
+};
 
-module.exports = feed;
+module.exports = {
+    feed: feed,
+    api: api
+};
 
 /***/ },
-/* 11 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -597,7 +929,7 @@ var _this = this;
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-var fs = __webpack_require__(13);
+var fs = __webpack_require__(16);
 
 var _require = __webpack_require__(1),
     query = _require.query;
@@ -684,86 +1016,74 @@ module.exports = initTable;
 /* WEBPACK VAR INJECTION */}.call(exports, "mysql/util"))
 
 /***/ },
-/* 12 */
-/***/ function(module, exports) {
-
-var dateFormat = function dateFormat(date, fmt) {
-    // author: meizz
-    var o = {
-        'M+': date.getMonth() + 1, // 月份
-        'd+': date.getDate(), // 日
-        'h+': date.getHours(), // 小时
-        'm+': date.getMinutes(), // 分
-        's+': date.getSeconds(), // 秒
-        'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
-        'S': date.getMilliseconds() // 毫秒
-    };
-    if (/(y+)/.test(fmt)) {
-        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
-    }
-    for (var k in o) {
-        if (new RegExp('(' + k + ')').test(fmt)) {
-            fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length));
-        }
-    }
-    return fmt;
-};
-
-module.exports = {
-    dateFormat: dateFormat
-};
-
-/***/ },
-/* 13 */
-/***/ function(module, exports) {
-
-module.exports = require("fs");
-
-/***/ },
-/* 14 */
-/***/ function(module, exports) {
-
-module.exports = require("koa-router");
-
-/***/ },
 /* 15 */
 /***/ function(module, exports) {
 
-module.exports = require("mysql");
+module.exports = require("axios");
 
 /***/ },
 /* 16 */
 /***/ function(module, exports) {
 
-module.exports = require("node-schedule");
+module.exports = require("fs");
 
 /***/ },
 /* 17 */
 /***/ function(module, exports) {
 
-module.exports = require("regenerator-runtime");
+module.exports = require("koa-router");
 
 /***/ },
 /* 18 */
 /***/ function(module, exports) {
 
-module.exports = require("rss-parser");
+module.exports = require("mysql");
 
 /***/ },
 /* 19 */
+/***/ function(module, exports) {
+
+module.exports = require("node-schedule");
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+module.exports = require("qs");
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+module.exports = require("regenerator-runtime");
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+module.exports = require("request-promise");
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+module.exports = require("rss-parser");
+
+/***/ },
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_koa__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_koa__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_koa___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_koa__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_koa_server_http_proxy__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_koa_server_http_proxy__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_koa_server_http_proxy___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_koa_server_http_proxy__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nuxt__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nuxt__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_nuxt__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mysql_index__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mysql_index__ = __webpack_require__(3);
 
 
 var start = function () {
@@ -779,7 +1099,7 @@ var start = function () {
 
                         // Import and Set Nuxt.js options
 
-                        config = __webpack_require__(3);
+                        config = __webpack_require__(4);
 
                         config.dev = !(app.env === 'production');
 
@@ -811,7 +1131,7 @@ var start = function () {
                             app.use(__WEBPACK_IMPORTED_MODULE_2_koa_server_http_proxy___default()(context, options));
                         });
 
-                        router = __webpack_require__(4);
+                        router = __webpack_require__(5);
 
 
                         app.use(router.routes()).use(router.allowedMethods());

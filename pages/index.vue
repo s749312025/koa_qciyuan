@@ -51,7 +51,7 @@ export default {
         let [{ info }, { image }] = await Promise.all([
             // fetch('/api/xiandu/data/id/appinn/count/10/page/1', {}, 'get'),
             fetch('/api/info', {}, 'post'),
-            fetch('/pixiv/pixiv.json', {}, 'get')
+            fetch('/api/pixiv', {}, 'post')
         ])
         return { xiantan: info, pixiv: image }
     },

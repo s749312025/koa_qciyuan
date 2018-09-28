@@ -17,7 +17,7 @@ const removeSameData = async (items, params) => {
             filterItems.push(item)
         }
     })
-    console.log(filterItems.length)
+    console.log(params.siteName + ': ' + filterItems.length)
     return filterItems
 }
 
