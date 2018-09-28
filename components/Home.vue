@@ -36,7 +36,7 @@
             </div>
         </div>
         <pixiv :pixiv="imgs"></pixiv>
-        <music></music>
+        <music :playlist="music"></music>
     </div>
 </template>
 
@@ -57,11 +57,12 @@ const adjList = [
     { title: '中国网信网', url: 'http://www.cac.gov.cn' }
 ]
 export default {
-    props: ['xiantan', 'pixiv'],
+    props: ['xiantan', 'pixiv', 'playlist'],
     components: { pixiv, music },
     data() {
         return {
             imgs: this.pixiv,
+            music: this.playlist,
             adjList,
             recommend
         }

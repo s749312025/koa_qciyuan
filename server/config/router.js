@@ -4,6 +4,8 @@ const router = require('koa-router')()
 
 let pixiv = []
 let pixivTime = new Date().getTime()
+let music = []
+let musicTime = new Date().getTime()
 
 router.post('/ceshi', async (ctx, next) => {
     ctx.body = {
@@ -38,6 +40,30 @@ router.post('/api/pixiv', async (ctx, next) => {
     pixivTime = new Date().getTime()
     ctx.body = {
         image
+    }
+})
+
+router.post('/api/music', async (ctx, next) => {
+    const now = new Date().getTime()
+    console.log(music.length, now - musicTime > 12 * 60 * 60 * 1000)
+    if (music.length > 0) {
+        if (now - musicTime > 12 * 60 * 60 * 1000) {
+            fetch('https://api.imjad.cn/cloudmusic/?type=playlist&id=71385702', {}, 'get')
+                .then(({playlist}) => {
+                    music = playlist.tracks
+                    musicTime = new Date().getTime()
+                })
+        }
+        ctx.body = {
+            playlist: music
+        }
+        return
+    }
+    const {playlist} = await fetch('https://api.imjad.cn/cloudmusic/?type=playlist&id=71385702', {}, 'get')
+    music = playlist.tracks
+    musicTime = new Date().getTime()
+    ctx.body = {
+        playlist: music
     }
 })
 

@@ -6,7 +6,7 @@ import '../mysql/index'
 
 async function start() {
     const app = new Koa()
-    const host = process.env.HOST || '127.0.0.1'
+    const host = process.env.HOST || '0.0.0.0'
     const port = process.env.PORT || 3000
 
     // Import and Set Nuxt.js options
@@ -23,15 +23,15 @@ async function start() {
     }
 
     // proxy
-    const proxyTable = {
-        '/api/xiandu': { target: 'https://gank.io', changeOrigin: true },
-        '/pixiv': { target: 'https://cloud.mokeyjay.com', changeOrigin: true },
-        '/cloudmusic': { target: 'https://api.imjad.cn', changeOrigin: true }
-    }
-    Object.keys(proxyTable).forEach(context => {
-        var options = proxyTable[context]
-        app.use(proxy(context, options))
-    })
+    // const proxyTable = {
+    //     '/api/xiandu': { target: 'https://gank.io', changeOrigin: true },
+    //     '/pixiv': { target: 'https://cloud.mokeyjay.com', changeOrigin: true },
+    //     '/cloudmusic': { target: 'https://api.imjad.cn', changeOrigin: true }
+    // }
+    // Object.keys(proxyTable).forEach(context => {
+    //     var options = proxyTable[context]
+    //     app.use(proxy(context, options))
+    // })
 
     const router = require('./config/router')
 

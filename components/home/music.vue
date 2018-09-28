@@ -22,18 +22,15 @@
 </template>
 
 <script>
-import fetch from '../../client/plugins/api.js'
 export default {
+    props: ['playlist'],
     data() {
         return {
             music: []
         }
     },
     async mounted() {
-        const data = await fetch('/cloudmusic/?type=playlist&id=71385702', {}, 'get')
-        if (data.playlist && data.playlist.tracks.length > 0) {
-            this.music = data.playlist.tracks
-        }
+        this.music = this.playlist
     }
 }
 </script>

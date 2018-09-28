@@ -290,6 +290,8 @@ var router = __webpack_require__(17)();
 
 var pixiv = [];
 var pixivTime = new Date().getTime();
+var music = [];
+var musicTime = new Date().getTime();
 
 router.post('/ceshi', function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(ctx, next) {
@@ -396,6 +398,63 @@ router.post('/api/pixiv', function () {
 
     return function (_x5, _x6) {
         return _ref3.apply(this, arguments);
+    };
+}());
+
+router.post('/api/music', function () {
+    var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(ctx, next) {
+        var now, _ref8, playlist;
+
+        return __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+            while (1) {
+                switch (_context4.prev = _context4.next) {
+                    case 0:
+                        now = new Date().getTime();
+
+                        console.log(music.length, now - musicTime > 12 * 60 * 60 * 1000);
+
+                        if (!(music.length > 0)) {
+                            _context4.next = 6;
+                            break;
+                        }
+
+                        if (now - musicTime > 12 * 60 * 60 * 1000) {
+                            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__client_plugins_api_js__["a" /* default */])('https://api.imjad.cn/cloudmusic/?type=playlist&id=71385702', {}, 'get').then(function (_ref7) {
+                                var playlist = _ref7.playlist;
+
+                                music = playlist.tracks;
+                                musicTime = new Date().getTime();
+                            });
+                        }
+                        ctx.body = {
+                            playlist: music
+                        };
+                        return _context4.abrupt('return');
+
+                    case 6:
+                        _context4.next = 8;
+                        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__client_plugins_api_js__["a" /* default */])('https://api.imjad.cn/cloudmusic/?type=playlist&id=71385702', {}, 'get');
+
+                    case 8:
+                        _ref8 = _context4.sent;
+                        playlist = _ref8.playlist;
+
+                        music = playlist.tracks;
+                        musicTime = new Date().getTime();
+                        ctx.body = {
+                            playlist: music
+                        };
+
+                    case 13:
+                    case 'end':
+                        return _context4.stop();
+                }
+            }
+        }, _callee4, _this);
+    }));
+
+    return function (_x7, _x8) {
+        return _ref6.apply(this, arguments);
     };
 }());
 
@@ -1088,13 +1147,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 var start = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee() {
-        var app, host, port, config, nuxt, builder, proxyTable, router;
+        var app, host, port, config, nuxt, builder, router;
         return __WEBPACK_IMPORTED_MODULE_0__Users_double_nuxt_project_koa_qciyan_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
                         app = new __WEBPACK_IMPORTED_MODULE_1_koa___default.a();
-                        host = process.env.HOST || '127.0.0.1';
+                        host = process.env.HOST || '0.0.0.0';
                         port = process.env.PORT || 3000;
 
                         // Import and Set Nuxt.js options
@@ -1120,16 +1179,15 @@ var start = function () {
                     case 10:
 
                         // proxy
-                        proxyTable = {
-                            '/api/xiandu': { target: 'https://gank.io', changeOrigin: true },
-                            '/pixiv': { target: 'https://cloud.mokeyjay.com', changeOrigin: true },
-                            '/cloudmusic': { target: 'https://api.imjad.cn', changeOrigin: true }
-                        };
-
-                        Object.keys(proxyTable).forEach(function (context) {
-                            var options = proxyTable[context];
-                            app.use(__WEBPACK_IMPORTED_MODULE_2_koa_server_http_proxy___default()(context, options));
-                        });
+                        // const proxyTable = {
+                        //     '/api/xiandu': { target: 'https://gank.io', changeOrigin: true },
+                        //     '/pixiv': { target: 'https://cloud.mokeyjay.com', changeOrigin: true },
+                        //     '/cloudmusic': { target: 'https://api.imjad.cn', changeOrigin: true }
+                        // }
+                        // Object.keys(proxyTable).forEach(context => {
+                        //     var options = proxyTable[context]
+                        //     app.use(proxy(context, options))
+                        // })
 
                         router = __webpack_require__(5);
 
@@ -1146,7 +1204,7 @@ var start = function () {
                         app.listen(port, host);
                         console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
 
-                    case 17:
+                    case 15:
                     case 'end':
                         return _context.stop();
                 }
