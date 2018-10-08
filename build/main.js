@@ -645,7 +645,7 @@ var removeSameData = function () {
                         filterItems = [];
 
                         items.forEach(function (item, index) {
-                            if (new Date(item.pubDate).getTime() > new Date(newest[0].pubDate).getTime()) {
+                            if (new Date(item.published_at).getTime() > new Date(newest[0].pubDate).getTime()) {
                                 filterItems.push(item);
                             }
                         });
@@ -911,7 +911,15 @@ var sites = [{
         icon: 'http://ww1.sinaimg.cn/large/eb8c259egy1fvo57zkof1j201c01ct8k.jpg',
         siteName: 'C3acg'
     }
-}, {
+},
+// {
+//     url: 'http://acg17.com/feed/?s=2',
+//     params: {
+//         icon: 'http://ww1.sinaimg.cn/large/eb8c259egy1fw05293xhmj203c037jr7.jpg',
+//         siteName: 'ACG17'
+//     }
+// },
+{
     url: 'http://likeacg.com/?feed=rss2',
     params: {
         icon: 'http://ww1.sinaimg.cn/large/eb8c259egy1fvo4ykzo8nj200g00g04k.jpg',

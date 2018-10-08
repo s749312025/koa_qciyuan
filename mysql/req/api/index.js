@@ -12,7 +12,7 @@ const removeSameData = async (items, params) => {
     }
     let filterItems = []
     items.forEach((item, index) => {
-        if (new Date(item.pubDate).getTime() > new Date(newest[0].pubDate).getTime()) {
+        if (new Date(item.published_at).getTime() > new Date(newest[0].pubDate).getTime()) {
             filterItems.push(item)
         }
     })

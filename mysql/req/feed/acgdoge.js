@@ -59,6 +59,13 @@ const sites = [
             siteName: 'C3acg'
         }
     },
+    // {
+    //     url: 'http://acg17.com/feed/?s=2',
+    //     params: {
+    //         icon: 'http://ww1.sinaimg.cn/large/eb8c259egy1fw05293xhmj203c037jr7.jpg',
+    //         siteName: 'ACG17'
+    //     }
+    // },
     {
         url: 'http://likeacg.com/?feed=rss2',
         params: {
