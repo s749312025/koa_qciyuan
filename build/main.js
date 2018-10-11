@@ -226,8 +226,9 @@ module.exports = {
         }, {
             hid: 'description',
             name: 'description',
-            content: 'Nuxt.js project'
+            content: 'Q次元,集合了动画，动画，动漫大全的导航网站。'
         }],
+        script: [{ src: 'https://hm.baidu.com/hm.js?a503b5a0d174fa01fdb7401977789953' }],
         link: [{
             rel: 'icon',
             type: 'image/x-icon',
