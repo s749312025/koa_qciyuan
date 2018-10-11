@@ -3,9 +3,12 @@
         <div class="banner" @click="() => isopen ? isopen = false : ''">
         </div>
         <div class="header">
-            <div class="header-bar">
+            <div class="fix-line" ref="top_nav"></div>
+            <div class="header-bar" :class="{top_nav: isFixedNav}">
                 <div class="bar-content">
-                    <a href="/" class="logo"></a>
+                    <a href="/" class="logo">
+                        <img src="https://i.loli.net/2018/10/09/5bbc55f76cca3.png" alt="">
+                    </a>
                     <div class="toolbar">
                         <ul class="tab">
                             <li v-for="(item, index) in category" :key="index" @click="categoryActive = index, smallCateRank = 0" :class="{active: categoryActive === index}">{{index}}</li>
@@ -38,7 +41,7 @@
 
             </ul>
         </div>
-        <home :xiantan="xiantan" :pixiv="pixiv" :playlist="playlist"></home>
+        <home :xiantan="xiantan" :pixiv="pixiv" :playlist="playlist" :cartoon="cartoon"></home>
     </section>
 </template>
 <script>
@@ -48,13 +51,35 @@ import { topNav } from '../client/plugins/nav'
 import Home from '../components/Home.vue'
 export default {
     async asyncData({ req }) {
-        let [{ info }, { image }, {playlist}] = await Promise.all([
+        let [{ info }, { image }, { playlist }, cartoon] = await Promise.all([
             // fetch('/api/xiandu/data/id/appinn/count/10/page/1', {}, 'get'),
             fetch('/api/info', {}, 'post'),
             fetch('/api/pixiv', {}, 'post'),
-            fetch('/api/music', {}, 'post')
+            fetch('/api/music', {}, 'post'),
+            fetch('/api/cartoon', {}, 'post')
         ])
-        return { xiantan: info, pixiv: image, playlist }
+        return { xiantan: info, pixiv: image, playlist, cartoon }
+    },
+    head() {
+        return {
+            title: 'Q次元，您身边的二次元资讯导航网站!',
+            meta: [
+                { charset: 'utf-8' },
+                { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+                {
+                    hid: 'description',
+                    name: 'description',
+                    content:
+                        '二次元的导航网站！及时收录动漫网站及资讯、宅网站、萌网站、动画、漫画、游戏等。可以让你更便捷的获取二次元世界的奇妙！'
+                },
+                {
+                    hid: 'Keywords',
+                    name: 'Keywords',
+                    content:
+                        '动漫资讯,科技资讯,二次元,动漫,萌系,动画,漫画,动画大全,动画集合,动漫网站大全,动画网站大全,动漫导航,Q次元'
+                }
+            ]
+        }
     },
     data() {
         return {
@@ -63,6 +88,7 @@ export default {
             isopen: false,
             category,
             topNav,
+            isFixedNav: false,
             categoryActive: '网页'
         }
     },
@@ -74,7 +100,19 @@ export default {
         },
         goUrl(url) {
             window.open(url)
+        },
+        scrollTopNav() {
+            document.onscroll = () => {
+                if (this.$refs.top_nav.getBoundingClientRect().top < 1) {
+                    this.isFixedNav = true
+                } else {
+                    this.isFixedNav = false
+                }
+            }
         }
+    },
+    mounted() {
+        this.scrollTopNav()
     }
 }
 </script>
@@ -97,11 +135,22 @@ export default {
     .header {
         height: 520px;
         position: relative;
+        .fix-line {
+            position: absolute;
+            bottom: 80px;
+        }
         .header-bar {
             position: absolute;
             bottom: 40px;
             width: 100%;
             height: 83px;
+            &.top_nav {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                background: #ffffffe0;
+                z-index: 99;
+            }
         }
         .bar-content {
             position: relative;
@@ -110,12 +159,15 @@ export default {
             margin: 0 auto;
         }
         a.logo {
-            background-image: url(https://asset.static.moe123.net/builds/20180911172601/03977178366e038201e85d8ab5a481ea.png);
+            // background-image: url(https://i.loli.net/2018/10/09/5bbc3fd540229.png);
             width: 245px;
             bottom: 10px;
             height: 59px;
             left: 5px;
             position: absolute;
+            img {
+                max-height: 100%;
+            }
         }
         .toolbar {
             width: 625px;
@@ -169,7 +221,7 @@ export default {
                         overflow: hidden;
                         text-indent: -1000px;
                         background: transparent center 32px no-repeat;
-                        background-image: url(https://asset.static.moe123.net/builds/20180911172601/8d1ab6335cfe0462addac6f839986ae8.png);
+                        background-image: url(https://i.loli.net/2018/10/09/5bbc59469db9b.png);
                     }
                     ul {
                         position: absolute;
@@ -188,7 +240,7 @@ export default {
                                 height: 32px;
                                 display: inline-block;
                                 background: transparent center 32px no-repeat;
-                                background-image: url(https://asset.static.moe123.net/builds/20180911172601/8d1ab6335cfe0462addac6f839986ae8.png);
+                                background-image: url(https://i.loli.net/2018/10/09/5bbc59469db9b.png);
                             }
                         }
                     }
@@ -201,7 +253,7 @@ export default {
                         height: 19px;
                         background-position: 3px -22px;
                         cursor: pointer;
-                        background-image: url(https://asset.static.moe123.net/builds/20180911172601/8b3b7d06d8503759f9e21bf703a9db5c.png);
+                        background-image: url(https://i.loli.net/2018/10/09/5bbc5946539a9.png);
                         background-repeat: no-repeat;
                         &.open {
                             background-position: 3px -42px;

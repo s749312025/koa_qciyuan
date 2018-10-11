@@ -10,7 +10,7 @@
                 <div class="music pointer" v-for="item in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]" :key="item">
                     <a :href="'https://music.163.com/#/song?id=' + music[item].id" target="_blank">
                         <div>
-                            <img :src="music[item].al.picUrl + '?param=120y120'" :alt="music[item].alia ? music[item].alia[0] : music[item].name">
+                            <img :src="music[item].album.picUrl + '?param=120y120'" :alt="music[item].alias ? music[item].alias[0] : music[item].name">
                             <div class="cr"></div>
                         </div>
                         <div class="title">{{music[item].name}}</div>

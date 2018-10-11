@@ -1,11 +1,16 @@
 import Koa from 'koa'
 import proxy from 'koa-server-http-proxy'
-import { Nuxt, Builder } from 'nuxt'
+const bodyParser = require('koa-bodyparser')
+import {
+    Nuxt,
+    Builder
+} from 'nuxt'
 
 import '../mysql/index'
 
 async function start() {
     const app = new Koa()
+    app.use(bodyParser())
     const host = process.env.HOST || '0.0.0.0'
     const port = process.env.PORT || 3000
 
