@@ -51,7 +51,6 @@ export default {
             let a = new URL(url)
             let allName = a.hostname.split('.')
             let len = allName.length
-            console.log(allName[len - 2])
             return allName[len - 2]
         }
     },
@@ -73,7 +72,6 @@ export default {
         }
     },
     created() {
-        console.log(this.cartoon)
         this.filterData()
     }
 }

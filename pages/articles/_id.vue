@@ -105,7 +105,6 @@ export default {
     },
     mounted() {
         this.info.pubDate = dateFormat(new Date(this.info.pubDate), 'yyyy-MM-dd hh:mm:ss')
-        console.log(this.info)
         this.scrollTopNav()
     }
 }

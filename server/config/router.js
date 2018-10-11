@@ -26,7 +26,6 @@ router.post('/api/infoById', async (ctx, next) => {
     //     info: 1
     // }
     const id = ctx.request.body.id
-    console.log('ser' + id)
     const info = await searchArticelById(id)
     ctx.body = {
         info
@@ -69,7 +68,6 @@ router.post('/api/pixiv', async (ctx, next) => {
 
 router.post('/api/music', async (ctx, next) => {
     const now = new Date().getTime()
-    console.log(music.length, now - musicTime > 12 * 60 * 60 * 1000)
     if (music.length > 0) {
         if (now - musicTime > 12 * 60 * 60 * 1000) {
             fetch('http://music.163.com/api/playlist/detail?id=71385702', {}, 'get')

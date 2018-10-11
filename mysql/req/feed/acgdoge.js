@@ -1,8 +1,12 @@
 let Parser = require('rss-parser')
 let parser = new Parser()
 
-const { query } = require('../../util/db')
-const { dateFormat } = require('../../util/utils')
+const {
+    query
+} = require('../../util/db')
+const {
+    dateFormat
+} = require('../../util/utils')
 
 // 过滤重复的数据
 const removeSameData = async (items, params) => {
@@ -27,7 +31,6 @@ const feedInsert = async (url, params) => {
     if (newItems.length === 0) {
         return
     }
-    console.log(newItems)
     newItems.forEach(async item => {
         let sql = `insert into article set title=?, link=?, pubDate=?, content=?, icon=?, siteName=?`
         const defaultData = {
@@ -38,14 +41,15 @@ const feedInsert = async (url, params) => {
             icon: 'http://ww1.sinaimg.cn/large/eb8c259egy1fvo4776ulbj200g00g0jv.jpg',
             siteName: 'ACG'
         }
-        const data = {...defaultData, ...params}
+        const data = { ...defaultData,
+            ...params
+        }
         const val = [data.title, data.link, data.pubDate, data.content, data.icon, data.siteName]
         await query(sql, val)
     })
 }
 
-const sites = [
-    {
+const sites = [{
         url: 'https://www.acgdoge.net/feed',
         params: {
             icon: 'http://ww1.sinaimg.cn/large/eb8c259egy1fvntn17g41j201c01c745.jpg',

@@ -13,7 +13,6 @@ export const searchArticel = async () => {
 
 export const searchArticelById = async (id) => {
     let sql = 'select * from `article` where `id` = ' + id
-    console.log(sql)
     let a = await query(sql)
     return a
 }

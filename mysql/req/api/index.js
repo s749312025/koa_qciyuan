@@ -1,13 +1,16 @@
 const rp = require('request-promise')
-const { query } = require('../../util/db')
-const { dateFormat } = require('../../util/utils')
+const {
+    query
+} = require('../../util/db')
+const {
+    dateFormat
+} = require('../../util/utils')
 
 // 过滤重复的数据
 const removeSameData = async (items, params) => {
     let sql = "SELECT `pubDate` FROM `koa_test`.`article` WHERE `siteName` = '" + params.siteName + "' ORDER BY `pubDate` DESC LIMIT 1"
     const newest = await query(sql)
     if (newest.length === 0) {
-        console.log(params.siteName + ': 所有的')
         return items
     }
     let filterItems = []
@@ -16,7 +19,6 @@ const removeSameData = async (items, params) => {
             filterItems.push(item)
         }
     })
-    console.log(params.siteName + ': ' + filterItems.length)
     return filterItems
 }
 
@@ -50,7 +52,9 @@ const apiInsert = async () => {
             icon: params.icon,
             siteName: params.siteName
         }
-        const data = {...defaultData, ...params}
+        const data = { ...defaultData,
+            ...params
+        }
         const val = [data.title, data.link, data.pubDate, data.content, data.icon, data.siteName]
         await query(sql, val)
     })
