@@ -21,7 +21,7 @@
             </div>
             <div class="all_nav right">
                 <ul class="com_url clear">
-                    <li v-for="(item, index) in topSites" :key="index">
+                    <li v-for="(item, index) in [...recommend.first, ...topSites]" :key="index">
                         <a :href="item.url" target="_blank">
                             <img v-if="item.icon" :src="item.icon" :alt="item.title">
                             <img v-else src="https://www.google.cn/s2/favicons?domain=web.sanguosha.com" alt="">
@@ -119,7 +119,7 @@ export default {
             if (!sites) {
                 return
             }
-            this.topSites = [...this.recommend.first, ...JSON.parse(sites)]
+            this.topSites = [ ...JSON.parse(sites) ]
         },
         delSite(item) {
             if (item) {
@@ -153,7 +153,7 @@ export default {
         }
     },
     mounted() {
-        this.topSites = [...this.recommend.first]
+        // this.topSites = [...this.recommend.first]
         this.getMysite()
     }
 }
