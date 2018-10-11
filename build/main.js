@@ -334,19 +334,17 @@ router.post('/api/infoById', function () {
                         //     info: 1
                         // }
                         id = ctx.request.body.id;
-
-                        console.log('ser' + id);
-                        _context2.next = 4;
+                        _context2.next = 3;
                         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__mysql_query_index__["a" /* searchArticelById */])(id);
 
-                    case 4:
+                    case 3:
                         info = _context2.sent;
 
                         ctx.body = {
                             info: info
                         };
 
-                    case 6:
+                    case 5:
                     case 'end':
                         return _context2.stop();
                 }
@@ -454,10 +452,8 @@ router.post('/api/music', function () {
                     case 0:
                         now = new Date().getTime();
 
-                        console.log(music.length, now - musicTime > 12 * 60 * 60 * 1000);
-
                         if (!(music.length > 0)) {
-                            _context5.next = 6;
+                            _context5.next = 5;
                             break;
                         }
 
@@ -474,11 +470,11 @@ router.post('/api/music', function () {
                         };
                         return _context5.abrupt('return');
 
-                    case 6:
-                        _context5.next = 8;
+                    case 5:
+                        _context5.next = 7;
                         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__client_plugins_api_js__["a" /* default */])('http://music.163.com/api/playlist/detail?id=71385702', {}, 'get');
 
-                    case 8:
+                    case 7:
                         _ref9 = _context5.sent;
                         result = _ref9.result;
 
@@ -488,7 +484,7 @@ router.post('/api/music', function () {
                             playlist: music
                         };
 
-                    case 13:
+                    case 12:
                     case 'end':
                         return _context5.stop();
                 }
@@ -722,16 +718,14 @@ var searchArticelById = function () {
                 switch (_context2.prev = _context2.next) {
                     case 0:
                         sql = 'select * from `article` where `id` = ' + id;
-
-                        console.log(sql);
-                        _context2.next = 4;
+                        _context2.next = 3;
                         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__util_db__["query"])(sql);
 
-                    case 4:
+                    case 3:
                         a = _context2.sent;
                         return _context2.abrupt('return', a);
 
-                    case 6:
+                    case 5:
                     case 'end':
                         return _context2.stop();
                 }
@@ -784,14 +778,13 @@ var removeSameData = function () {
                         newest = _context.sent;
 
                         if (!(newest.length === 0)) {
-                            _context.next = 7;
+                            _context.next = 6;
                             break;
                         }
 
-                        console.log(params.siteName + ': 所有的');
                         return _context.abrupt('return', items);
 
-                    case 7:
+                    case 6:
                         filterItems = [];
 
                         items.forEach(function (item, index) {
@@ -799,10 +792,9 @@ var removeSameData = function () {
                                 filterItems.push(item);
                             }
                         });
-                        console.log(params.siteName + ': ' + filterItems.length);
                         return _context.abrupt('return', filterItems);
 
-                    case 11:
+                    case 9:
                     case 'end':
                         return _context.stop();
                 }
@@ -1001,7 +993,6 @@ var feedInsert = function () {
                         return _context3.abrupt('return');
 
                     case 8:
-                        console.log(newItems);
                         newItems.forEach(function () {
                             var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__Users_clarence_project_my_client_koa_qciyuan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(item) {
                                 var sql, defaultData, data, val;
@@ -1036,7 +1027,7 @@ var feedInsert = function () {
                             };
                         }());
 
-                    case 10:
+                    case 9:
                     case 'end':
                         return _context3.stop();
                 }

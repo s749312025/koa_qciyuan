@@ -88,6 +88,7 @@ export default {
     .weekItem {
         border: 1px solid #e5e9ef;
         border-radius: 8px;
+        height: 32px;
         li {
             width: 50px;
             line-height: 32px;
