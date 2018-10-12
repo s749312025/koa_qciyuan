@@ -121,16 +121,16 @@ export default {
 .home {
     position: relative;
     .banner {
-        height: 800px;
         position: absolute;
         width: 100%;
-        height: 800px;
+        height: 600px;
         top: 0;
         left: 0;
         right: 0;
         background: transparent top center no-repeat;
         display: block;
-        background-image: url(https://ww4.sinaimg.cn/large/a15b4afegw1f5s9rj596dj20y60hs7bd);
+        background-size: auto 100%;
+        background-image: url(https://i.loli.net/2018/10/12/5bc034362a816.jpg);
     }
     .header {
         height: 520px;
