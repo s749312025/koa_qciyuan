@@ -130,7 +130,7 @@ export default {
         background: transparent top center no-repeat;
         display: block;
         background-size: auto 100%;
-        background-image: url(https://i.loli.net/2018/10/12/5bc034362a816.jpg);
+        background-image: url(https://i.loli.net/2018/10/12/5bc0378359c99.jpg);
     }
     .header {
         height: 520px;
