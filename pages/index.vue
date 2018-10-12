@@ -149,7 +149,7 @@ export default {
                 top: 0;
                 width: 100%;
                 background: #ffffffe0;
-                z-index: 99;
+                z-index: 150;
             }
         }
         .bar-content {
